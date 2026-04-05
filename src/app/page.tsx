@@ -16,7 +16,7 @@ import AuthModal from "@/components/AuthModal";
 import LibraryDrawer from "@/components/LibraryDrawer";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
-import { UserCircle, LogOut, Library } from "lucide-react";
+import { LogOut, Library } from "lucide-react";
 
 // Lazy-load the heavy visualizer
 const Visualizer = lazy(() => import("@/components/Visualizer"));

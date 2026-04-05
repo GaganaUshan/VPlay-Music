@@ -47,8 +47,18 @@ export async function GET(request: NextRequest) {
 
     // Safely map results, filtering out any items that don't have a videoId
     const results = data.items
-      .filter((item: any) => item.id?.videoId) // Ensure it's a video
-      .map((item: any) => ({
+      .filter((item: { id?: { videoId?: string } }) => item.id?.videoId)
+      .map((item: { 
+        id: { videoId: string }; 
+        snippet?: { 
+          title?: string; 
+          channelTitle?: string; 
+          thumbnails?: { 
+            high?: { url?: string }; 
+            default?: { url?: string } 
+          } 
+        } 
+      }) => ({
         videoId: item.id.videoId,
         title: item.snippet?.title || "Unknown Title",
         channel: item.snippet?.channelTitle || "Unknown Channel",
@@ -56,11 +66,9 @@ export async function GET(request: NextRequest) {
       }));
 
     return NextResponse.json({ results });
-  } catch (error: any) {
-    console.error("Search API Critical Error:", error.message, error.stack);
-    return NextResponse.json(
-      { error: `Internal server error: ${error.message}` },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Search API Critical Error:", message);
+    return NextResponse.json({ error: "Failed to fetch results" }, { status: 500 });
   }
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Trash2, Music } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { supabase } from "@/lib/supabase";
 
 interface Favorite {
@@ -16,7 +17,7 @@ interface Favorite {
 interface LibraryDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (song: any) => void;
+  onSelect: (song: { videoId: string; title: string; channel: string; thumbnail: string }) => void;
   userId: string | undefined;
 }
 
@@ -32,8 +33,7 @@ export default function LibraryDrawer({ isOpen, onClose, onSelect, userId }: Lib
 
   const fetchFavorites = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase
-      .from("favorites")
+    const { data, error } = await supabase.from("favorites")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
