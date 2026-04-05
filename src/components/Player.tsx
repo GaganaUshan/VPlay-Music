@@ -106,29 +106,17 @@ export default function Player({ song, onPlaying, onEnded }: PlayerProps) {
   };
 
   const handleDownload = async () => {
-    if (!user || !song || isDownloading) return;
+    if (!song || isDownloading) return;
 
     setIsDownloading(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-
-      if (!token) {
-        alert("Please sign in to download music.");
-        setIsDownloading(false);
-        return;
-      }
-
-      const response = await fetch(`/api/download?v=${song.videoId}`, {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
+      const response = await fetch(`/api/download?v=${song.videoId}`);
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to download");
       }
+
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -416,24 +404,23 @@ export default function Player({ song, onPlaying, onEnded }: PlayerProps) {
           )}
         </motion.button>
 
-        {user && (
-          <motion.button
-            whileHover={{ scale: 1.2, color: "#fff" }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleDownload}
-            disabled={isDownloading}
-            className="p-3 rounded-full transition-all relative"
-            style={{ color: isDownloading ? "#fff" : "var(--text-secondary)" }}
-            aria-label="Download MP3"
-          >
-            {isDownloading ? (
-              <Loader2 size={20} strokeWidth={2.5} className="animate-spin" />
-            ) : (
-              <Download size={20} strokeWidth={2.5} />
-            )}
-          </motion.button>
-        )}
+        <motion.button
+          whileHover={{ scale: 1.2, color: "#fff" }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="p-3 rounded-full transition-all relative"
+          style={{ color: isDownloading ? "#fff" : "var(--text-secondary)" }}
+          aria-label="Download MP3"
+        >
+          {isDownloading ? (
+            <Loader2 size={20} strokeWidth={2.5} className="animate-spin" />
+          ) : (
+            <Download size={20} strokeWidth={2.5} />
+          )}
+        </motion.button>
       </div>
+
 
 
       {/* Volume - Simplified */}

@@ -1,27 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import ytdl from "@distube/ytdl-core";
-import { supabase } from "@/lib/supabase";
+
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const videoId = searchParams.get("v");
-  const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+
 
   if (!videoId) {
     return NextResponse.json({ error: "Video ID is required" }, { status: 400 });
   }
 
-  // 1. Auth Check
-  if (!token) {
-    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
-  }
-
-  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-  if (authError || !user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
+
     // 2. Fetch Video Info
     const url = `https://www.youtube.com/watch?v=${videoId}`;
     
