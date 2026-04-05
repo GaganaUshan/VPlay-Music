@@ -1,0 +1,89 @@
+Create a modern web music player with a minimalistic aesthetic and smooth performance.
+
+vplay
+
+Tech Stack:
+- Next.js (latest version with App Router)
+- TypeScript
+- TailwindCSS for styling
+- Framer Motion for animations
+- Web Audio API for sound visualization
+- PWA support (installable app, but background playback is NOT required)
+
+Core Concept:
+The application is a minimalist black-and-white glassmorphism music player that allows users to search for songs and play them directly from YouTube. The experience should focus on immersive lyrics and a clean interface.
+
+Main Features:
+
+1. Song Search
+- Provide a search bar where users can type a song or artist name.
+- Fetch results using the YouTube Data API.
+- Display results in a minimal dropdown list with song titles only (no heavy thumbnails).
+- When the user selects a song, open a dedicated player layout.
+
+2. Music Player
+- Use the YouTube IFrame Player API to stream the audio.
+- Automatically start playback when a song is selected.
+- The player should prioritize audio listening (the video should remain hidden).
+- No background playback is required.
+- Ensure smooth playback without UI lag.
+
+3. Lyrics Display
+- Fetch lyrics using a lyrics API (Genius API or Musixmatch API).
+- Display lyrics in the center of the screen.
+- Apply subtle animations such as:
+  - smooth fade transitions
+  - line highlighting
+  - floating lyric motion
+- Lyrics should appear inside glassmorphism panels.
+
+4. UI Design
+
+Theme:
+- Black and white minimalistic design
+- Premium glassmorphism effects
+- Slight futuristic influence inspired by Viper from Valorant
+- Clean typography and strong contrast
+
+Design elements:
+- frosted glass panels
+- soft glow borders
+- subtle grid or doodle animations in the background
+- monochrome palette with very minimal neon accents
+
+5. Audio Visualizer
+
+Add a circular sound visualization element:
+
+- A glowing sound circle in the center
+- The circle should react dynamically to bass and frequencies
+- Use the Web Audio API to analyze sound frequencies
+- Smooth vibration and pulse animations
+- Must maintain high performance (60fps)
+
+6. Performance Optimization
+
+- Avoid heavy components or large media elements
+- Lazy load non-essential components
+- Optimize animations for smooth performance
+- Maintain a lightweight UI
+
+7. PWA Support
+
+- Enable installable Progressive Web App
+- Cache static assets for faster loading
+- Maintain playback when switching tabs (not full background playback)
+
+8. UX Enhancements
+
+- Smooth transitions between search and player
+- Keyboard shortcuts for play/pause
+- Mobile responsive layout
+- Minimal controls (play, pause, progress bar, volume)
+
+-API KEY YT DATA V3-
+AIzaSyDkzmi0rVJ-dno1CU-EwYgeDcwa8ONWIKk
+
+
+Goal:
+Build a visually elegant and immersive lyric-focused music player with a minimalist black-and-white glassmorphism interface, smooth animations, and a responsive audio visualizer.
