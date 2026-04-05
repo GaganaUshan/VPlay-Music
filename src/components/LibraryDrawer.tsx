@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Trash2, Music } from "lucide-react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { supabase } from "@/lib/supabase";
 
 interface Favorite {
@@ -25,13 +24,7 @@ export default function LibraryDrawer({ isOpen, onClose, onSelect, userId }: Lib
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && userId) {
-      fetchFavorites();
-    }
-  }, [isOpen, userId]);
-
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     setIsLoading(true);
     const { data, error } = await supabase.from("favorites")
       .select("*")
@@ -42,7 +35,13 @@ export default function LibraryDrawer({ isOpen, onClose, onSelect, userId }: Lib
       setFavorites(data);
     }
     setIsLoading(false);
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (isOpen && userId) {
+      fetchFavorites();
+    }
+  }, [isOpen, userId, fetchFavorites]);
 
   const removeFavorite = async (id: string) => {
     const { error } = await supabase.from("favorites").delete().eq("id", id);

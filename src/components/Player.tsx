@@ -46,13 +46,7 @@ export default function Player({ song, onPlaying, onEnded }: PlayerProps) {
   const [isReady, setIsReady] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  useEffect(() => {
-    if (song) {
-      checkIfFavorite();
-    }
-  }, [song]);
-
-  const checkIfFavorite = async () => {
+  const checkIfFavorite = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user || !song) return;
 
@@ -64,7 +58,13 @@ export default function Player({ song, onPlaying, onEnded }: PlayerProps) {
       .single();
 
     setIsFavorite(!!data);
-  };
+  }, [song]);
+
+  useEffect(() => {
+    if (song) {
+      checkIfFavorite();
+    }
+  }, [song, checkIfFavorite]);
 
   const toggleFavorite = async () => {
     const { data: { user } } = await supabase.auth.getUser();

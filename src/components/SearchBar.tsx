@@ -2,8 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, Heart } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { Search, X } from "lucide-react";
 
 interface SearchResult {
   videoId: string;
